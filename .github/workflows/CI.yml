@@ -180,7 +180,7 @@ jobs:
           # - '3.10'
           # - '3.11'
           - '3.12'
-        target: [aarch64, armv7, s390x, ppc64le]
+        target: [aarch64, armv7]
         include:
           - python: pypy3.9
             target: aarch64
