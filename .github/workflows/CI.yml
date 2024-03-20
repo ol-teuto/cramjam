@@ -115,37 +115,37 @@ jobs:
   #         name: wheels
   #         path: dist
 
-  linux:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.10', '3.12']
-        target: [x86_64, i686]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@stable
-    - name: Tests
-      run: cargo test --no-default-features --release --features capi
-    - uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    # - name: Audit
-    #   run: cargo install cargo-audit && cargo audit
-    - name: Build Wheels - cramjam-python
-      uses: PyO3/maturin-action@v1
-      with:
-        target: ${{ matrix.target }}
-        manylinux: auto
-        sccache: true
-        args: -i ${{ matrix.python-version }} --release --out dist --manifest-path cramjam-python/Cargo.toml
-    - name: Build Wheels musl - cramjam-python
-      uses: PyO3/maturin-action@v1
-      with:
-        target: ${{ matrix.target }}
-        manylinux: musllinux_1_1
-        sccache: true
-        args: -i ${{ matrix.python-version }} --release --out dist --manifest-path cramjam-python/Cargo.toml
+  # linux:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       python-version: ['3.7', '3.10', '3.12']
+  #       target: [x86_64, i686]
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Install Rust toolchain
+  #     uses: dtolnay/rust-toolchain@stable
+  #   # - name: Tests
+  #   #   run: cargo test --no-default-features --release --features capi
+  #   - uses: actions/setup-python@v5
+  #     with:
+  #       python-version: ${{ matrix.python-version }}
+  #   # - name: Audit
+  #   #   run: cargo install cargo-audit && cargo audit
+  #   - name: Build Wheels - cramjam-python
+  #     uses: PyO3/maturin-action@v1
+  #     with:
+  #       target: ${{ matrix.target }}
+  #       manylinux: auto
+  #       sccache: true
+  #       args: -i ${{ matrix.python-version }} --release --out dist --manifest-path cramjam-python/Cargo.toml
+  #   - name: Build Wheels musl - cramjam-python
+  #     uses: PyO3/maturin-action@v1
+  #     with:
+  #       target: ${{ matrix.target }}
+  #       manylinux: musllinux_1_1
+  #       sccache: true
+  #       args: -i ${{ matrix.python-version }} --release --out dist --manifest-path cramjam-python/Cargo.toml
     # - name: Build Wheels - cramjam-cli
     #   uses: PyO3/maturin-action@v1
     #   with:
@@ -163,11 +163,11 @@ jobs:
     #   run: |
     #     pip install cramjam-cli --pre --no-index --find-links dist --force-reinstall
     #     python -m pytest cramjam-cli -vs --ignore **/benchmarks
-    - name: Upload wheels
-      uses: actions/upload-artifact@v3
-      with:
-        name: wheels
-        path: dist
+    # - name: Upload wheels
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: wheels
+    #     path: dist
 
   linux-cross:
     runs-on: ubuntu-latest
@@ -177,7 +177,7 @@ jobs:
           - '3.7'
           # - '3.8'
           # - '3.9'
-          - '3.10'
+          # - '3.10'
           # - '3.11'
           - '3.12'
         target: [aarch64, armv7, s390x, ppc64le]
@@ -201,7 +201,14 @@ jobs:
         target: ${{ matrix.target }}
         manylinux: musllinux_1_1
         sccache: true
-        args: -i ${{ matrix.python-version }} --release --out dist --manifest-path cramjam-python/Cargo.toml
+        args: -i ${{ matrix.python }} --release --out dist --manifest-path cramjam-python/Cargo.toml
+    - name: Build Wheels musl - cramjam-cli
+      uses: PyO3/maturin-action@v1
+      with:
+        target: ${{ matrix.target }}
+        manylinux: musllinux_1_1
+        sccache: true
+        args: -i ${{ matrix.python }} --release --out dist --manifest-path cramjam-cli/Cargo.toml
     # - name: Build Wheels cramjam-cli
     #   uses: PyO3/maturin-action@v1
     #   with:
