@@ -116,7 +116,7 @@ jobs:
   #         path: dist
 
   linux:
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ['3.7', '3.10', '3.12']
@@ -170,7 +170,7 @@ jobs:
         path: dist
 
   linux-cross:
-    runs-on: ubicloud-standard-4
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python:
