@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  pypy-cross:
+  pypy-musl:
     runs-on: ubuntu-latest
     strategy:
       matrix:
